@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const moment = require("moment");
 const users = new mongoose.Schema({
-    userName: {
+    UserName: {
         type: String,
         required: [true, "Please enter your name!"],
         maxLength: [15, "Name must be less than 15 characters"],
       },
-      PassWord: {
+    Password: {
         type: srtring ,
         required: [true, "err"],
         validate: {
@@ -27,11 +27,11 @@ const users = new mongoose.Schema({
             message: props => `${props.value} does not meet the password requirements`
         },
       },
-      email:{
+    email:{
          type:email,
          require:[true,"Please enter your email !"]  
       },
-      phoneNumber: {
+    phoneNumber: {
         type: String,
         required: [true, "Please enter a phone number!"],
         trim: true,
@@ -42,21 +42,21 @@ const users = new mongoose.Schema({
              message: props => `${props.value} is not a valid Dutch phone number!`
         }
     },
-      createdAt: {
+    createdAt: {
         type: Date,
         default: Date.now,
         get: function (createdAt) {
           return moment(createdAt).format("MMMM Do YYYY ");
         },
       },
-      updatedAt: {
+    updatedAt: {
         type: Date,
         default: Date.now,
         get: function (createdAt) {
           return moment(createdAt).format("MMMM Do YYYY ");
         },
       },
-    IpAdress:{
+    IpAddress:{
         type: [String],
         required: [true, "Please enter an IP address!"],
         validate: {
