@@ -1,0 +1,24 @@
+const { Router } = require("express");
+const DoThis=require("../controller/functions")
+const router=Router()
+
+
+
+router.get("/signup",DoThis. singup)
+router.post("/signup",DoThis. singup)
+
+router.post("/tokenval",DoThis.tokenval)
+
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports=router
