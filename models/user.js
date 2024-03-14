@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 const moment = require("moment");
-const users = new mongoose.Schema({
+const usersdb = new mongoose.Schema({
     UserName: {
         type: String,
         required: [true, "Please enter your name!"],
         maxLength: [15, "Name must be less than 15 characters"],
       },
     Password: {
-        type: srtring ,
+        type: String ,
         required: [true, "err"],
         validate: {
             validator:(v)=>{
@@ -28,7 +28,7 @@ const users = new mongoose.Schema({
         },
       },
     email:{
-         type:email,
+         type:String,
          require:[true,"Please enter your email !"]  
       },
     phoneNumber: {
@@ -56,9 +56,8 @@ const users = new mongoose.Schema({
           return moment(createdAt).format("MMMM Do YYYY ");
         },
       },
-    IpAddress:{
+    IPAddress:{
         type: [String],
-        required: [true, "Please enter an IP address!"],
         validate: {
             validator: function(v) {
                 const ipAddressRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}$|:^:(:[0-9a-fA-F]{1,4}){1,7}$|^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$|localhost$|localhost\.localdomain$|localhost\.local$|loc$^/
@@ -66,10 +65,11 @@ const users = new mongoose.Schema({
             },
             message: props => `${props.value} is not a valid IP address!`
         }
-    }
     },
-  );
+    isValidate:{type:Boolean,defult:false},
+    emailtoken:{type:String},
+    });
 
-const Feeds = mongoose.model('users', users);
+const users = mongoose.model('users', usersdb);
 
-module.exports = Feeds;
+module.exports = users;
