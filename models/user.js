@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require("moment");
+const bcrypt = require('bcrypt');
+
 
 const usersSchema = new mongoose.Schema({
     UserName: {
@@ -30,7 +32,7 @@ const usersSchema = new mongoose.Schema({
               return(`${props.value} does not meet the password requirements`)
             }
         },
-    }
+    },
   },
     email: {
         type: String,
