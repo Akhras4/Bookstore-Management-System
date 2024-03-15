@@ -8,28 +8,36 @@ const singup = (req, res) => {
     if (req.method === "GET") {
         res.render("signup")
     } else if (req.method === "POST") {
-        const { UserName, Password, email, phoneNumber, IPAddress } = req.body
+        console.log(req.body)
+        const { UserName, Password, email, phoneNumber, IPAddress } =req.body
+        console.log(req.body)
         let usercheck = users.findOne({ email })
-        if (usercheck ) {
+        if ( usercheck ) {
             let emailtoken = crypto.randomBytes(64).toString("hex")
-            const NewUser = new users(UserName, Password, email, phoneNumber, IPAddress, emailtoken)
+            console.log(Password)
+            const NewUser = new users({UserName, Password, email, phoneNumber, IPAddress, emailtoken})
             NewUser.save()
                 .then(() => {
                     res.status(200).json({ _id: NewUser._id, UserName, email, emailtoken });
                 })
                 .catch((error) => {
                     if (error.name === 'ValidationError') {
-                        const errors = Object.values(error.errors).map(error => error.message);
-                        res.status(400).json({ errors });
+                        let errors = {};
+                        Object.keys(error.errors).forEach((key) => {
+                            errors[key] = error.errors[key].message;
+                        });
+                        res.status(400).json( errors );
                     } else {
                         res.status(500).send("Error saving user")
                     }
                 })
-            } else {
+        }else{
                     return res.status(400).json("the email has already regested")
         }
     }
 }
+
+
 const tokenval = (req, res) => {
     const emailtoken = req.body.emailtoken;
     if (!emailtoken) return res.status(404).json("Token not found");
@@ -53,7 +61,33 @@ const tokenval = (req, res) => {
 };
 
 
+const login=(req,res)=>{
+    if(req.method==="GET"){ 
+        res.render("login")
+    }else if(req.method==="POST"){
+       const{email,Password}=req.body;
+       const discover=users.findOne({email})
+       .then(()=>{
+        if( Password == discover.Password){
+              res.status(200).json(discover).redirect(`/${discover.UserName}`)
+       }else{
+        res.status(400).json({message:"Username or password uncorrect"}).render("login")
+       }
+    }).catch(error=>{
+        res.status(500).json({error:"Internal Server Error"});
+    })
+}
+}
+
+const LossPassword=(req,res)=>{
+         
+}
+
+
+
 module.exports = {
     singup,
-    tokenval
+    tokenval,
+    login,
+    LossPassword,
 }

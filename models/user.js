@@ -9,12 +9,8 @@ const usersSchema = new mongoose.Schema({
     },
     Password: {
         type: String,
-        required: [true, "Please enter a password!"],
         validate: {
             validator: function (v) {
-                if (v.length < 8) {
-                    return false;
-                }
                 const specialCharacter = /[!@#$%^&*()\-_=+{};:'",<.>/?[\]\\]/;
                 const uppercase = /[A-Z]/;
                 const lowercase = /[a-z]/;
@@ -25,10 +21,17 @@ const usersSchema = new mongoose.Schema({
                     lowercase.test(v) &&
                     numbercase.test(v)
                 );
+                
             },
-            message: props => `${props.value} does not meet the password requirements`
+            message: props =>{
+              if (props.value.length < 8) {
+                return(  `Password must be at least 8 characters long`);
+            } else { 
+              return(`${props.value} does not meet the password requirements`)
+            }
         },
-    },
+    }
+  },
     email: {
         type: String,
         required: [true, "Please enter your email!"]
@@ -60,15 +63,15 @@ const usersSchema = new mongoose.Schema({
     },
     IPAddress: {
         type: [String],
-        validate: {
+        /*validate: {
             validator: function (v) {
                 const ipAddressRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}$|:^:(:[0-9a-fA-F]{1,4}){1,7}$|^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$|localhost$|localhost\.localdomain$|localhost\.local$|loc$^/;
                 return ipAddressRegex.test(v);
             },
             message: props => `${props.value} is not a valid IP address!`
-        }
+          }*/
     },
-    isValid: { type: Boolean, default: false }, // Corrected typo
+    isValid: { type: Boolean, default: false },
     emailtoken: { type: String },
 });
 
