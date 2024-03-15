@@ -7,8 +7,9 @@ on:
   release:
     types: [created]
 
-    
-on: puch
+  push:
+    branches:
+      - main
 
 jobs:
   build:
