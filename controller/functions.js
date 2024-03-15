@@ -10,23 +10,23 @@ const singup = (req, res) => {
     } else if (req.method === "POST") {
         const { UserName, Password, email, phoneNumber, IPAddress } = req.body
         let usercheck = users.findOne({ email })
-        if (usercheck) {
-            return res.status(400).json("the email has already regested")
-        } else {
+        if (usercheck ) {
             let emailtoken = crypto.randomBytes(64).toString("hex")
             const NewUser = new users(UserName, Password, email, phoneNumber, IPAddress, emailtoken)
             NewUser.save()
                 .then(() => {
                     res.status(200).json({ _id: NewUser._id, UserName, email, emailtoken });
                 })
-                .catch((err) => {
+                .catch((error) => {
                     if (error.name === 'ValidationError') {
-                        const errors = Object.values(err.errors).map(error => error.message);
+                        const errors = Object.values(error.errors).map(error => error.message);
                         res.status(400).json({ errors });
                     } else {
                         res.status(500).send("Error saving user")
                     }
                 })
+            } else {
+                    return res.status(400).json("the email has already regested")
         }
     }
 }
