@@ -61,17 +61,18 @@ const tokenval = (req, res) => {
 };
 
 
-const login=(req,res)=>{
+const login = (req,res)=>{
     if(req.method==="GET"){ 
         res.render("login")
     }else if(req.method==="POST"){
        const{email,Password}=req.body;
-       const discover=users.findOne({email})
-       .then(()=>{
+       users.findOne({email})
+       .then((discover)=>{
+        console.log(discover)
         if( Password == discover.Password){
-              res.status(200).json(discover).redirect(`/${discover.UserName}`)
+              res.status(200).redirect(302,`/${discover.UserName}`,{discover})//302 for now Moved Temporarily
        }else{
-        res.status(400).json({message:"Username or password uncorrect"}).render("login")
+        res.status(400).json({message:"Username or password uncorrect"})//.render("login")
        }
     }).catch(error=>{
         res.status(500).json({error:"Internal Server Error"});
@@ -79,9 +80,6 @@ const login=(req,res)=>{
 }
 }
 
-const LossPassword=(req,res)=>{
-         
-}
 
 
 
@@ -89,5 +87,5 @@ module.exports = {
     singup,
     tokenval,
     login,
-    LossPassword,
+   
 }
