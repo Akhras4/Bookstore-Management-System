@@ -9,12 +9,10 @@ router.post("/signup",DoThis.singup)
 
 router.post("/tokenval",DoThis.tokenval)
 
-router.get("/login".DoThis.login)
-router.post("/login".DoThis.login)
+router.get("/login",DoThis.login)
+router.post("/login",DoThis.login)
 
 
-router.get("/LossPassword".DoThis.Losspassword)
-router.post("/LossPassword".DoThis.Losspassword)
 
 
 
