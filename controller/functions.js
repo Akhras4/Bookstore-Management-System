@@ -2,8 +2,6 @@ const { model, Error } = require('mongoose');
 const users = require("../models/user");
 const crypto=require("crypto")
 
-
-
 const singup = (req, res) => {
     if (req.method === "GET") {
         res.render("signup")
@@ -11,29 +9,29 @@ const singup = (req, res) => {
         console.log(req.body)
         const { UserName, Password, email, phoneNumber, IPAddress } =req.body
         console.log(req.body)
-        let usercheck = users.findOne({ email })
-        if ( usercheck ) {
-            let emailtoken = crypto.randomBytes(64).toString("hex")
-            console.log(Password)
-            const NewUser = new users({UserName, Password, email, phoneNumber, IPAddress, emailtoken})
-            NewUser.save()
-                .then(() => {
-                    res.status(200).json({ _id: NewUser._id, UserName, email, emailtoken });
-                })
-                .catch((error) => {
-                    if (error.name === 'ValidationError') {
-                        let errors = {};
-                        Object.keys(error.errors).forEach((key) => {
-                            errors[key] = error.errors[key].message;
-                        });
-                        res.status(400).json( errors );
-                    } else {
-                        res.status(500).send("Error saving user")
-                    }
-                })
-        }else{
-                    return res.status(400).json("the email has already regested")
-        }
+        users.findOne({ email })
+        .then((usercheck)=>{ if ( usercheck ){
+             return res.status(400).json("the email has already regested")
+            }else{
+        let emailtoken = crypto.randomBytes(64).toString("hex")
+        console.log(Password)
+        const NewUser = new users({UserName, Password, email, phoneNumber, IPAddress, emailtoken})
+         NewUser.save()
+             .then(() => {
+                 res.status(200).json({ _id: NewUser._id, UserName, email, emailtoken });
+            })
+            .catch((error) => {
+                if (error.name === 'ValidationError') {
+                    let errors = {};
+                    Object.keys(error.errors).forEach((key) => {
+                      errors[key] = error.errors[key].message;
+                    });
+                    res.status(400).json( errors );
+                } else {
+                     res.status(500).send("Error saving user")
+                }
+            })
+    }})
     }
 }
 
