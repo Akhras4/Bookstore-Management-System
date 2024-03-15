@@ -60,15 +60,15 @@ const usersSchema = new mongoose.Schema({
     },
     IPAddress: {
         type: [String],
-        validate: {
+        /*validate: {
             validator: function (v) {
                 const ipAddressRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}$|:^:(:[0-9a-fA-F]{1,4}){1,7}$|^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$|localhost$|localhost\.localdomain$|localhost\.local$|loc$^/;
                 return ipAddressRegex.test(v);
             },
             message: props => `${props.value} is not a valid IP address!`
-        }
+          }*/
     },
-    isValid: { type: Boolean, default: false }, // Corrected typo
+    isValid: { type: Boolean, default: false },
     emailtoken: { type: String },
 });
 
