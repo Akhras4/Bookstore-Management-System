@@ -1,75 +1,77 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const moment = require("moment");
-const usersdb = new mongoose.Schema({
+
+const usersSchema = new mongoose.Schema({
     UserName: {
         type: String,
         required: [true, "Please enter your name!"],
         maxLength: [15, "Name must be less than 15 characters"],
-      },
+    },
     Password: {
-        type: String ,
-        required: [true, "err"],
+        type: String,
+        required: [true, "Please enter a password!"],
         validate: {
-            validator:(v)=>{
+            validator: function (v) {
                 if (v.length < 8) {
                     return false;
-                  }
+                }
                 const specialCharacter = /[!@#$%^&*()\-_=+{};:'",<.>/?[\]\\]/;
                 const uppercase = /[A-Z]/;
-                const Lowercase = /[a-z]/;
-                const Numbercase = /[1-9]/;
-                return ( specialCharacter.test(v)&&
-                         uppercase.test(v)&&
-                         Lowercase.test(v)&&
-                         Numbercase.test(v)
-                   )
+                const lowercase = /[a-z]/;
+                const numbercase = /[0-9]/;
+                return (
+                    specialCharacter.test(v) &&
+                    uppercase.test(v) &&
+                    lowercase.test(v) &&
+                    numbercase.test(v)
+                );
             },
             message: props => `${props.value} does not meet the password requirements`
         },
-      },
-    email:{
-         type:String,
-         require:[true,"Please enter your email !"]  
-      },
+    },
+    email: {
+        type: String,
+        required: [true, "Please enter your email!"]
+    },
     phoneNumber: {
         type: String,
         required: [true, "Please enter a phone number!"],
         trim: true,
         validate: {
-            validator: function(v) {
-                return /^(?:\+31|0)(?:\d[\s-]?){9}\d$/.test(v);
+            validator: function (v) {
+                return /^(?:\+31|0)(?:\d[\s-]?){8,10}\d$/.test(v); 
             },
-             message: props => `${props.value} is not a valid Dutch phone number!`
+            message: props => `${props.value} is not a valid Dutch phone number!`
         }
     },
     createdAt: {
         type: Date,
         default: Date.now,
         get: function (createdAt) {
-          return moment(createdAt).format("MMMM Do YYYY ");
+            return moment(createdAt).format("MMMM Do YYYY ");
         },
-      },
+    },
     updatedAt: {
         type: Date,
         default: Date.now,
         get: function (createdAt) {
-          return moment(createdAt).format("MMMM Do YYYY ");
+            return moment(createdAt).format("MMMM Do YYYY ");
         },
-      },
-    IPAddress:{
+    },
+    IPAddress: {
         type: [String],
         validate: {
-            validator: function(v) {
-                const ipAddressRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}$|:^:(:[0-9a-fA-F]{1,4}){1,7}$|^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$|localhost$|localhost\.localdomain$|localhost\.local$|loc$^/
+            validator: function (v) {
+                const ipAddressRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}$|:^:(:[0-9a-fA-F]{1,4}){1,7}$|^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$|localhost$|localhost\.localdomain$|localhost\.local$|loc$^/;
                 return ipAddressRegex.test(v);
             },
             message: props => `${props.value} is not a valid IP address!`
         }
     },
-    isValidate:{type:Boolean,defult:false},
-    emailtoken:{type:String},
-    });
+    isValid: { type: Boolean, default: false }, // Corrected typo
+    emailtoken: { type: String },
+});
 
-const users = mongoose.model('users', usersdb);
+const users = mongoose.model('users', usersSchema);
 
 module.exports = users;
