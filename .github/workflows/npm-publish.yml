@@ -30,6 +30,8 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
+          node-version-file: '.nvmrc'
+          cache: 'npm'
       - run: npm ci
       - run: echo "https://www.npmjs.com/package/registration-system:_authToken=${{ secrets.NPM_AUTH_TOKEN }}">${{ github.workspace }}/./npmrc
       - run: npm publish
