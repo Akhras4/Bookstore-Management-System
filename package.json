@@ -4,7 +4,7 @@
   "description": "registration system using express and mongodb",
   "main": "server.js",
   "scripts": {
- 
+     "test":"",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
