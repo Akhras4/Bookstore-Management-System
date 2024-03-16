@@ -4,7 +4,8 @@
   "description": "registration system using express and mongodb",
   "main": "server.js",
   "publishConfig":{
-      "registry":"https://www.npmjs.com/package/registration-system"
+      "registry":"https://www.npmjs.com/package/registration-system",
+      "access": "public"
     },
   "scripts": {
      "test":"",
