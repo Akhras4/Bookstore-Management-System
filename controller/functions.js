@@ -79,16 +79,16 @@ const login = (req,res)=>{
                    res.status(400).json({message:"Username or password uncorrect"})//.render("login")
                }})
             .catch(error=>{
+                console.error(error); 
                  res.status(500).json({error:"Internal Server Error"});
             })
     }
 }
 
-
-
 module.exports = {
     singup,
     tokenval,
     login,
+    
    
 }
