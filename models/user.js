@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const moment = require("moment");
-const bcrypt = require('bcrypt');
 
 
 const usersSchema = new mongoose.Schema({
@@ -22,8 +21,7 @@ const usersSchema = new mongoose.Schema({
                     uppercase.test(v) &&
                     lowercase.test(v) &&
                     numbercase.test(v)
-                );
-                
+                );  
             },
             message: props =>{
               if (props.value.length < 8) {
