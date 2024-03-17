@@ -47,7 +47,7 @@ const singup = (req, res) => {
 const tokenval = (req, res) => {
     const emailtoken = req.query.emailtoken;
     if (!emailtoken) return res.status(404).json("Token not found");
-    users.findOneAndUpdate({ emailtoken }, { isValid: true, emailtoken: null } ,{ new: true }) 
+    users.findOneAndUpdate({ emailtoken }, { isValid: true, emailtoken: null }) 
          .then(newUser => {
             res.status(200).json({ UserName: newUser.UserName, emailtoken: newUser.emailtoken, isValidate: newUser.isValid });
           })
