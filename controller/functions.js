@@ -88,13 +88,19 @@ async function sendemailtoclient(email,UserName,emailtoken,PORT){
  function HoldingUntileRedirect(email){
     users.findOne({email})
          .then((newuser)=>{
-           if(newuser.isValid === false){
-             setTimeout(() => {
-                newuser.deleteOne({email})
-                       .then(()=>console.log("deleted"))
-                       .catch((err)=>console.log(err))
-              }, 300000);
-            }
+           intervalcls= setInterval(()=>{
+             if(newuser.isValid === true){
+                clearInterval(intervalcls);
+                return 
+              }}, 1000);
+              setTimeout(() => {
+                clearInterval(intervalcls); 
+                    if (newuser.isValid === false) {
+                         newuser.deleteOne({ email })
+                                .then(() => console.log("User deleted successfully"))
+                                .catch((err) => console.error("Error deleting user:", err));
+                    }
+              }, 300000);      
     })
     .catch((error) => {
         console.log("user is not exist",error);
