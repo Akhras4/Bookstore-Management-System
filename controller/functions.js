@@ -49,11 +49,9 @@ const tokenval = (req, res) => {
     if (!emailtoken) return res.status(404).json("Token not found");
     users.findOneAndUpdate({ emailtoken }, { isValid: true, emailtoken: null },{ new:true }) 
          .then(newUser => {
-            res.status(200).json({ UserName: newUser.UserName, emailtoken: newUser.emailtoken, isValidate: newUser.isValid });
-          })
+            res.status(200).json({ UserName: newUser.UserName, emailtoken: newUser.emailtoken, isValidate: newUser.isValid })})
          .catch(error => {
-            console.error(error);
-            res.status(500).json(error.message);
+           return res.status(404).json("deed token");
         });
 };
 
