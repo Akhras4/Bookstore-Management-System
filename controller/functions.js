@@ -77,13 +77,35 @@ async function sendemailtoclient(email,UserName,emailtoken,PORT){
             text: `Hello ${UserName}`,
             html: `<b>Hello ${UserName}</b> <a href="http://localhost:${PORT}/VerificationEmail?emailtoken=${emailtoken}">Verification Link</a>`
         });
-
+        HoldingUntileRedirect(email)
         console.log("Message sent: %s", info.messageId);
     } catch (error) {
         console.error("Error sending email:", error);
     }
 }
 
+
+ function HoldingUntileRedirect(email){
+    users.findOne({email})
+         .then((newuser)=>{
+           intervalcls= setInterval(()=>{
+             if(newuser.isValid === true){
+                clearInterval(intervalcls);
+                return 
+              }}, 1000);
+              setTimeout(() => {
+                clearInterval(intervalcls); 
+                    if (newuser.isValid === false) {
+                         newuser.deleteOne({ email })
+                                .then(() => console.log("User deleted successfully"))
+                                .catch((err) => console.error("Error deleting user:", err));
+                    }
+              }, 300000);      
+    })
+    .catch((error) => {
+        console.log("user is not exist",error);
+    });     
+}
 
 
 const login = (req,res)=>{
