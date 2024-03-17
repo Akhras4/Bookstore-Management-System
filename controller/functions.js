@@ -45,22 +45,13 @@ const singup = (req, res) => {
 
 
 const tokenval = (req, res) => {
-    const emailtoken = req.body.emailtoken;
+    const emailtoken = req.query.emailtoken;
     if (!emailtoken) return res.status(404).json("Token not found");
-    users.findOne({ emailtoken })
-        .then(NewUser => {
-            if (NewUser) {
-                NewUser.isValidate = true;
-                NewUser.emailtoken = null;
-                return NewUser.save();
-            } else {
-                throw new Error("Invalid token");
-            }
-        })
-        .then(newUser => {
-            res.status(200).json({ UserName: newUser.UserName, Password: newUser.Password, emailtoken: newUser.emailtoken, isValidate: newUser.isValidate });
-        })
-        .catch(error => {
+    users.findOneAndUpdate({ emailtoken }, { isValid: true, emailtoken: null } ,{ new: true }) 
+         .then(newUser => {
+            res.status(200).json({ UserName: newUser.UserName, emailtoken: newUser.emailtoken, isValidate: newUser.isValid });
+          })
+         .catch(error => {
             console.error(error);
             res.status(500).json(error.message);
         });
