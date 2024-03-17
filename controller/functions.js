@@ -47,7 +47,7 @@ const singup = (req, res) => {
 const tokenval = (req, res) => {
     const emailtoken = req.query.emailtoken;
     if (!emailtoken) return res.status(404).json("Token not found");
-    users.findOneAndUpdate({ emailtoken }, { isValid: true, emailtoken: null }) 
+    users.findOneAndUpdate({ emailtoken }, { isValid: true, emailtoken: null },{ new:true }) 
          .then(newUser => {
             res.status(200).json({ UserName: newUser.UserName, emailtoken: newUser.emailtoken, isValidate: newUser.isValid });
           })
@@ -86,25 +86,18 @@ async function sendemailtoclient(email,UserName,emailtoken,PORT){
 
 
  function HoldingUntileRedirect(email){
-    users.findOne({email})
-         .then((newuser)=>{
-           intervalcls= setInterval(()=>{
-             if(newuser.isValid === true){
-                clearInterval(intervalcls);
-                return 
-              }}, 1000);
-              setTimeout(() => {
-                clearInterval(intervalcls); 
-                    if (newuser.isValid === false) {
-                         newuser.deleteOne({ email })
-                                .then(() => console.log("User deleted successfully"))
+                setTimeout(() => {
+                users.findOne({email}) 
+                    .then((newuser)=>{
+                        if (newuser.isValid === false) {
+                             newuser.deleteOne({ email })
+                                .then(() =>{
+                                     console.log("User deleted successfully")
+                                      return
+                                    })
                                 .catch((err) => console.error("Error deleting user:", err));
-                    }
-              }, 300000);      
-    })
-    .catch((error) => {
-        console.log("user is not exist",error);
-    });     
+                    }}) 
+              }, 150000);           
 }
 
 
