@@ -2,8 +2,9 @@ const { model, Error } = require('mongoose');
 const users = require("../models/user");
 const crypto=require("crypto")
 const bcrypt=require("bcrypt");
-
-
+require('dotenv').config();
+const nodemailer = require("nodemailer");
+const PORT = process.env.PORT ;
 const singup = (req, res) => {
     if (req.method === "GET") {
         res.render("signup")
@@ -22,6 +23,7 @@ const singup = (req, res) => {
                     const hash = bcrypt.hashSync(Password , 15)
                     NewUser.Password=hash
                     NewUser.updateOne(Password)
+                           .then(()=>{sendemailtoclient(email,UserName,emailtoken,PORT) })
                            .then(()=> {res.status(200).json({ _id: NewUser._id, UserName, email, emailtoken })})
                            .catch((error)=>{res.status(400).json(error="faild hash")})
                    })
@@ -63,6 +65,34 @@ const tokenval = (req, res) => {
             res.status(500).json(error.message);
         });
 };
+
+
+async function sendemailtoclient(email,UserName,emailtoken,PORT){
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.Appemail,
+            pass: process.env.AppPassword, 
+        },
+    });
+
+    try {
+        const info = await transporter.sendMail({
+            from: '"registration-system 👻" <aboakhras4@gmail.com>',
+            to: email,
+            subject: "Hello ✔",
+            text: `Hello ${UserName}`,
+            html: `<b>Hello ${UserName}</b> <a href="http://localhost:${PORT}/VerificationEmail?emailtoken=${emailtoken}">Verification Link</a>`
+        });
+
+        console.log("Message sent: %s", info.messageId);
+    } catch (error) {
+        console.error("Error sending email:", error);
+    }
+}
+
 
 
 const login = (req,res)=>{
