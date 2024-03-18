@@ -3,12 +3,14 @@ const router=require("./roots/roots")
 const mongoose=require("mongoose")
 require('dotenv').config();
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const app=express()
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
-
+app.use(cookieParser());
 const PORT = process.env.PORT ;
 const password=process.env.password
 
