@@ -5,6 +5,9 @@ const bcrypt=require("bcrypt");
 require('dotenv').config();
 const nodemailer = require("nodemailer");
 const PORT = process.env.PORT ;
+
+
+
 const singup = (req, res) => {
     if (req.method === "GET") {
         res.render("signup")
