@@ -1,15 +1,23 @@
-const express=require("express")
-const router=require("./roots/roots")
-const mongoose=require("mongoose")
+const express=require("express");
+const routes = require('./routes');
+const mongoose=require("mongoose");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const homePageRoute = require('./routes/index');
+
 require('dotenv').config();
 const bodyParser = require('body-parser');
 
 const app=express()
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({extended:true}));
+app.set("view engine","ejs");
 
-const PORT = process.env.PORT ;
+app.use(express.static("public"));
+
+const PORT =process.env.PORT || 8082;
 const password=process.env.password
 
 const urldb=`mongodb+srv://akhras:${password}@akhras.yjxfgn6.mongodb.net/`
@@ -18,9 +26,8 @@ mongoose.connect(urldb)
         .catch((err)=>console.log("err"))
 
 
-app.set("view engine","ejs")
-app.use(router)
-app.use(express.static("public"))
+// mahtab'public' directory
+app.use('/', routes);
 
 
 
