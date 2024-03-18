@@ -151,6 +151,8 @@ const login = (req,res)=>{
             })
     }
 };
+
+
 const cookieJWTAuth=(req,res,next)=>{
     const token =req.cookies.token
     .then(()=>{
