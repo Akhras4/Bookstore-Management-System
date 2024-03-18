@@ -123,6 +123,5 @@ module.exports = {
     singup,
     tokenval,
     login,
-    
-   
+     
 }
