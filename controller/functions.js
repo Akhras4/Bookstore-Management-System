@@ -131,9 +131,12 @@ const login = (req,res)=>{
         res.render("login",{ errors: null })
     }else if(req.method==="POST"){
        const{email,Password}=req.body;
-       if(!email && Password) return res.status(404).render("login", {errors:"passwords or username  uncorrect"})
+       if(!email || !Password) return res.status(404).render("login", {errors:"passwords or username  uncorrect"})
        users.findOne({email})
             .then((discover)=>{
+                if (!discover) {
+                    return res.status(400).render("login", { errors: 'Passwords or username incorrect' });
+                }
                console.log(discover)
                bcrypt.compare(Password, discover.Password, (err, result) => {
                 if(err){
