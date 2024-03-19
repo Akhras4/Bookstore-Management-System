@@ -73,7 +73,7 @@ const tokenval = (req, res) => {
                     res.status(500).json({ error: "Failed to generate token" });
                 } else {
                     res.cookie("token",token)
-                    res.status(200).redirect(`/user/${newUser.UserName}?UserName=${newUser.UserName}`);
+                    res.status(200).redirect(`/user/${newUser.UserName}`);
                 }
             })
         })
@@ -154,7 +154,7 @@ const login = (req,res)=>{
                         res.status(500).json({ error: "Failed to generate token" });
                     } else {
                         res.cookie("token",token)
-                        res.status(200).redirect(`/user/${discover.UserName}?UserName=${discover.UserName}`);
+                        res.status(200).redirect(`/user/${discover.UserName}`);
                     }
                 });
                }else{
@@ -173,12 +173,12 @@ const cookieJWTAuth = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
         res.clearCookie("token");
-        return res.redirect("/");
+        return res.redirect("/login");
     }
     jwt.verify(token, process.env.MY_SECRET, { algorithm: 'HS256' }, (err, user) => {
         if (err) {
             res.clearCookie("token");
-            return res.redirect("/");
+            return res.redirect("/login");
         } else {
             req.user = user;
             console.log(user);

@@ -1,26 +1,23 @@
 const express=require("express");
-const routes = require('./routes');
+const routes = require("./roots/roots");
 const mongoose=require("mongoose");
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const homePageRoute = require('./routes/index');
-
-require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
-const app=express()
+
+
+const app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.set("view engine","ejs");
-
 app.use(express.static("public"));
 
 
+const PORT = process.env.PORT ;
 const password=process.env.password
 
 const urldb=`mongodb+srv://akhras:${password}@akhras.yjxfgn6.mongodb.net/`

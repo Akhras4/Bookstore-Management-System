@@ -10,10 +10,10 @@
   <% files.forEach(file => { %>
     <li>
       <%= file %>
-      - <a href="/pdfs/<%= file %>" target="_blank">View</a>
-      - <a href="/rename/<%= file %>">Rename</a>
-      - <a href="/download/<%= file %>">Download</a>
-      - <a href="/delete/<%= file %>" onclick="return confirm('Are you sure?');">Delete</a>
+      - <a href="/user/<%= username %>/pdfs/<%= file %>" target="_blank">View</a>
+      - <a href="/user/<%= username %>/rename/<%= file %>">Rename</a>
+      - <a href="/user/<%= username %>/download/<%= file %>">Download</a>
+      - <a href="/user/<%= username %>/delete/<%= file %>" onclick="return confirm('Are you sure?');">Delete</a>
     </li>
   <% }); %>
 </ul>

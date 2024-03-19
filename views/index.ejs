@@ -7,9 +7,13 @@
 </head>
 <body>
     <h1>Upload a PDF</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <p><%= username %></p>
+    <form action="/user/<%= username %>/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="pdf" required>
         <button type="submit">Upload</button>
     </form>
+    <% if(errors) { %>
+        <%= errors %>
+    <% } %>
 </body>
 </html>
