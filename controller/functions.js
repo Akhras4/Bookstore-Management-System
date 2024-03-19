@@ -4,7 +4,6 @@ const crypto=require("crypto")
 const bcrypt=require("bcrypt");
 require('dotenv').config();
 const nodemailer = require("nodemailer");
-const { brotliCompressSync } = require('zlib');
 const PORT = process.env.PORT ;
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -19,45 +18,44 @@ const singup = (req, res) => {
         const { UserName, Password, email, phoneNumber, IPAddress } =req.body
         console.log(req.body)
         users.findOne({ email })
-        .then((usercheck)=>{ if ( usercheck ){
+            .then((usercheck)=>{ if ( usercheck ){
              return res.status(400).render("signup",{ errors: { message: "the email has already registed" }})
             }else{
             let emailtoken = crypto.randomBytes(64).toString("hex")
             const NewUser = new users({UserName, Password, email, phoneNumber, IPAddress, emailtoken})
             NewUser.save()
-                   .then(() => {
-                    const hash = bcrypt.hashSync(Password, 15)
-                    NewUser.Password = hash;
-                    return NewUser.save();
-                    })
+            .then(() => {
+                const hash = bcrypt.hashSync(Password, 15);
+                NewUser.Password = hash;
+                return NewUser.save();
+            })
+            .then(() => {
+                sendemailtoclient(email, UserName, emailtoken, PORT);
+                res.status(200).render("info");
+            })
+            .catch((saveError) => {
+                if (saveError.name === 'ValidationError') {
+                    let errors = {};
+                    Object.keys(saveError.errors).forEach((key) => {
+                        errors[key] = saveError.errors[key].message;
+                    });
+                    return res.status(400).render("signup", { errors: errors });
+                } else {
+                    handleSavingError(NewUser, email, res);
+                }
+            });
+            function handleSavingError(user, email, res) {
+                user.deleteOne({ email })
                     .then(() => {
-                    sendemailtoclient(email, UserName,emailtoken, PORT);
-                    res.status(200).render("info");
+                        return res.status(400).render("signup", { errors: { message: "Failed to save user" }});
                     })
-                   .catch((error) => {
-                       NewUser.deleteOne({ email })
-                        .then(() => {
-                            res.status(400).json({ error: "Failed to save user" });
-                        })
-                        .catch((deleteError) => {
-                            res.status(500).json({ error: "Error deleting user", deleteError });
-                        });
-                    })
-                   .catch((error) => {
-                      if (error.name === 'ValidationError') {
-                      let errors = {};
-                      Object.keys(error.errors).forEach((key) => {
-                      errors[key] = error.errors[key].message;
-                      });
-                        return res.status(400).render("signup", {errors:errors} );
-                      } else {
-                         return res.status(500).send("Error saving user")
-                      }
-                    })
+                    .catch((deleteError) => {
+                        res.status(500).json({ error: "Error deleting user", deleteError });
+                    });
             }
-        })
+        
     }
-}
+})}}
 
 
 const tokenval = (req, res) => {
@@ -69,9 +67,8 @@ const tokenval = (req, res) => {
                 userId: newUser._id,
                 UserName: newUser.UserName
             };
-            jwt.sign(payload, process.env.JWT_SECRET, { algorithm: 'HS256',expiresIn: '4h' }, (err, token) => {
+            jwt.sign(payload, process.env.MY_SECRET, { algorithm: 'HS256',expiresIn: '4h' }, (err, token) => {
                 if (err) {
-                    console.error(err);
                     res.clearCookie(token);
                     res.status(500).json({ error: "Failed to generate token" });
                 } else {
@@ -134,6 +131,7 @@ const login = (req,res)=>{
         res.render("login",{ errors: null })
     }else if(req.method==="POST"){
        const{email,Password}=req.body;
+       if(!email && Password) return res.status(404).render("login", {errors:"passwords or username  uncorrect"})
        users.findOne({email})
             .then((discover)=>{
                console.log(discover)
