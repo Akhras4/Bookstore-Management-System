@@ -13,10 +13,10 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    link: {
+    path: {
         type: String,
         required: true
-    }
+    },
 });
 
 const books = mongoose.model('books', bookSchema);
