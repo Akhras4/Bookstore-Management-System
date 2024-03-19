@@ -39,25 +39,3 @@
     
 </body>
 </html>
-    <form action="/signup" method="post">
-        <label for="username">Username</label>
-        <input id="username" type="text" name="UserName"class="asd">
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email" class="asd">
-
-        <label for="password">Password</label>
-        <input id="password" type="password" name="Password" class="asd">
-        <label for="phoneNumber">Phone Number</label>
-        <input id="phoneNumber" type="text" name="phoneNumber" class="asd">
-        <% if (errors) { %>
-            <ul>
-                <% Object.keys(errors).forEach(key => { %>
-                    <li><%= errors[key] %></li>
-                <% }); %>
-            </ul>
-        <% } %>
-
-        <input type="submit" value="Submit">
-    </form>
-</body>
-</html>
