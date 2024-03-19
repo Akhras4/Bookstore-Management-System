@@ -1,16 +1,22 @@
-const express=require("express")
-const router=require("./roots/roots")
-const mongoose=require("mongoose")
-require('dotenv').config();
+const express=require("express");
+const routes = require("./roots/roots");
+const mongoose=require("mongoose");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
-const app=express()
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}))
+const app = express();
+
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.set("view engine","ejs");
+app.use(express.static("public"));
+
+
 const PORT = process.env.PORT ;
 const password=process.env.password
 
@@ -20,9 +26,8 @@ mongoose.connect(urldb)
         .catch((err)=>console.log("err"))
 
 
-app.set("view engine","ejs")
-app.use(router)
-app.use(express.static("public"))
+// mahtab'public' directory
+app.use('/', routes);
 
 
 
