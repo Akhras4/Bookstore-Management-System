@@ -8,38 +8,37 @@ const PDF_FOLDER = path.join(__dirname, '..', 'public', 'pdfs');
 
 const HomeController = {
   index: (req, res) => {
-    const username = req.params.username;
-    console.log(req.params)
-    res.render('index',{errors:null, username});
+    const userid = req.params.id;
+    res.render('index',{errors:null, userid });
     
   },
   upload: (req, res) => {  
      if (req.uploadError) {
-      const username = req.params;
+      const _id = req.params.id
       console.log(req.params)
-        return res.status(401).render("index", { errors: req.uploadError, username });
+        return res.status(401).render("index", { errors: req.uploadError, _id });
     }else {
-     const username = req.params.username;
+     const userid = req.params.id;
      console.log(req.params)
-     res.cookie('username', username);
-     res.redirect(`/user/${username}/uploads`);
+     res.cookie('username', {userid});
+     res.redir(`/user/${ userid }/uploads`);
 }
 },
   list: async (req, res) => {
     try {
       const files = await fs.readdir(PDF_FOLDER);
-      const username = req.params.username;
-      res.render('uploads', { files ,username });
+      const userid = req.params.id;
+      res.render('uploads', { files , userid});
     } catch (err) {
-      res.status(500).render("indix",{errors:err.message, username});
+      res.status(500).render("indix",{errors:err.message, userid});
     }
   },
   delete: async (req, res) => {
     try {
-      const username = req.params.username;
+      const userid = req.params.id;
       const { filename } = req.params;
       await fs.unlink(path.join(PDF_FOLDER, filename));
-      res.redirect(`/user/${username}/uploads`);
+      res.redirect(`/user/${ userid }/uploads`);
     } catch (err) {
       res.status(500).send(err.message);
     }
@@ -49,14 +48,14 @@ const HomeController = {
     res.download(path.join(PDF_FOLDER, filename));
   },
   renameForm: async (req, res) => {
-    const username = req.params.username;
+    const userid = req.params.id;
     const { filename } = req.params;
-    res.render('rename', { filename,  username });
+    res.render('rename', { filename,  userid });
   },
 
 
   rename: async (req, res) => {
-    const username = req.params.username;
+    const userid = req.params.id;
     const { oldFilename } = req.params;
     const newFilename = req.body.newFilename;
     const oldPath = path.join(PDF_FOLDER, oldFilename);
@@ -64,7 +63,7 @@ const HomeController = {
 
     try {
       await fs.rename(oldPath, newPath);
-      res.redirect(`/user/${username}/uploads`);
+      res.redirect(`/user/${ userid }/uploads`);
     } catch (err) {
       res.status(500).send(err.message);
     }

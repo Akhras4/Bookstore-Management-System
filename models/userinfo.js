@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const bookSchema = new mongoose.Schema({
+const userinfoSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true
@@ -10,13 +10,13 @@ const bookSchema = new mongoose.Schema({
         required: true
     },
     user_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'User', 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user', 
         required: true
     }
    
 });
 
-const books = mongoose.model('books', bookSchema);
+const userinfo = mongoose.model('userinf', userinfoSchema);
 
-module.exports = books
+module.exports = userinfo
