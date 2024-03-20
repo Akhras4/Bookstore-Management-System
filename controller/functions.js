@@ -17,9 +17,10 @@ const singup = (req, res) => {
         console.log(req.body)
         const { UserName, Password, email, phoneNumber, IPAddress } =req.body
         console.log(req.body)
-        users.findOne({ email })
+        users.findOne({UserName:UserName})
             .then((usercheck)=>{ if ( usercheck ){
-             return res.status(400).render("signup",{ errors: { message: "the email has already registed" }})
+
+             return res.status(400).render("signup",{ errors: { message: "the username has already registed" }})
             }else{
             let emailtoken = crypto.randomBytes(64).toString("hex")
             const NewUser = new users({UserName, Password, email, phoneNumber, IPAddress, emailtoken})

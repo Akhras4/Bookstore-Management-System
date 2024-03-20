@@ -17,10 +17,11 @@ app.set("view engine","ejs");
 app.use(express.static("public"));
 
 
-const PORT = process.env.PORT ;
-const password=process.env.password
+const PORT = process.env.PORT || 3000;
+const password=process.env.password 
 
-const urldb=`mongodb+srv://akhras:${password}@akhras.yjxfgn6.mongodb.net/`
+//const urldb=`mongodb+srv://akhras:${password}@akhras.yjxfgn6.mongodb.net/`
+const urldb= 'mongodb://localhost:27017/'
 mongoose.connect(urldb)
         .then((result)=>console.log("connected to db"))
         .catch((err)=>console.log("err"))

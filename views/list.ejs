@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Book</title>
+<link rel="stylesheet" href="/css/styleUpload.css">
+</head>
+<body>
+<h1>My Book</h1>
+<ul>
+  <% files.forEach(file => { %>
+    <li>
+      <span class="file-name"><%= file %></span>
+      <div class="actions">
+        <a class="a" href="/user/<%= username %>/view/<%= file %>" target="_blank">View</a>
+        <a class="a" href="/user/<%= username %>/rename/<%= file %>">Rename</a>
+        <a class="a" href="/user/<%= username %>/download/<%= file %>">Download</a>
+        <a class="a" href="/user/<%= username %>/delete/<%= file %>" onclick="return confirm('Are you sure?');">Delete</a>
+      </div>
+    </li>
+  <% }); %>
+</ul>
+<a href="/uploads/<%= username %>" class="btn">Upload more book</a>
+</body>
+</html>
