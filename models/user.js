@@ -73,6 +73,7 @@ const usersSchema = new mongoose.Schema({
     },
     isValid: { type: Boolean, default: false },
     emailtoken: { type: String },
+    book_id:[{ type: Schema.Types.ObjectId, ref: 'book' }]
 });
 
 const users = mongoose.model('users', usersSchema);
