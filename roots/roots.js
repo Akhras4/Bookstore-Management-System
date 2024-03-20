@@ -4,7 +4,7 @@ const router=Router()
 const multer = require('multer');
 const HomeController = require('../controller/HomeController');
 
-
+router.get("/", HomeController.index)
 
 router.get("/signup",DoThis.singup)
 router.post("/signup",DoThis.singup)
@@ -16,7 +16,8 @@ router.get("/login",DoThis.login)
 router.post("/login",DoThis.login)
 
 
-//router.get(`/user/:username`,DoThis.cookieJWTAuth,DoThis.user)
+router.get(`/user/:username`,HomeController.list)
+router.get(`/uploads/:username`,HomeController.index)
 //router.post(`/user/:username`,DoThis.cookieJWTAuth)
 
 
@@ -31,7 +32,8 @@ router.post("/user/:username/logout",DoThis.cookieJWTAuth,DoThis.logout)
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'public/pdfs');
+    const username = req.params.username; 
+      cb(null, 'public/' + username +'/pdfs');
     },
     filename: (req, file, cb) => {
       cb(null, file.originalname);
@@ -55,6 +57,7 @@ router.post(`/user/:username/upload`,DoThis.cookieJWTAuth, upload.single('pdf'),
 router.get(`/user/:username/uploads`,DoThis.cookieJWTAuth, HomeController.list);
 router.get(`/user/:username/delete/:filename`,DoThis.cookieJWTAuth, HomeController.delete);
 router.get(`/user/:username/download/:filename`,DoThis.cookieJWTAuth, HomeController.download);
+router.get(`/user/:username/view/:filename`,DoThis.cookieJWTAuth, HomeController.view);
 router.get(`/user/:username/rename/:filename`,DoThis.cookieJWTAuth, HomeController.renameForm);
 router.post(`/user/:username/rename/:oldFilename`,DoThis.cookieJWTAuth, HomeController.rename);
 
