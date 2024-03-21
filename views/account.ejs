@@ -116,26 +116,73 @@
             height: 30px;
             margin-top: 15px;
           }
+          
+        
+           #items {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #other {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .item {
+        max-width: 145px;
+        margin: 5px;
+    }
+    
+    .item h4 {
+        font-size: 12px;
+    }
+    .item p {
+        font-size: 12px;
+    }
+    
+    .item figure {
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 5px;
+        width: 200px;
+        height: 240px;
+        margin: 0;
+    }
+    .item figure img {
+        max-width: 100%;
+        display: block;
+        height: auto;
+        border-radius: 5px;
+    }
+    
+    .item figcaption {
+        padding-top: 5px;
+    }
+    section {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    
     </style>
 </head>
 <body>
     <div class="bar">
-    <a href="/user/<%= userid %>/logout">aaaaaaa</a>
+    <a href="/user/<%= userid %>/logout">logout</a>
     <a href="/user/<%= userid %>/">back</a>
     </div>
     <div>
         <div class="profile">
         <div class="profile-picture" id="profile-picture">
             <img src='https://avataaars.io/?avatarStyle=Circle&topType=LongHairBob&accessoriesType=Prescription01&hairColor=BrownDark&facialHairType=BeardMajestic&facialHairColor=BlondeGolden&clotheType=ShirtCrewNeck&clotheColor=Gray01&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light' alt="Profile Picture" class="profile-picture">
-            <div class="add-picture-button" id="add-picture-button">
-                <button id="add-picture">+</button>
-            </div>
             </div>  
             <div class="profile-info">
                 <h2>User Profile</h2>
                 <p><strong>Name:</strong> <%= username %></p>
                 <p><strong>Email:</strong> <%= email %></p>
-                <p><strong>Email:</strong> <%= phoneNumber %></p>
+                <p><strong>phoneNumber:</strong> <%= phoneNumber %></p>
                 <%  if(aboutyou) { %>   
                   <p><strong>about Me:</strong> <%= aboutyou %></p>
                 <% } %>
@@ -156,8 +203,38 @@
         </form>
         </div>
         </dialog>
-     
-</div>
+        <div id="container">
+            <main>
+                <section id="book">
+                    <% for (i=0;i<books.length;i++){ %>
+                        <div class="item">
+                            <figure>
+                                <a href="/user/<%= userid %>/<%= books[i].pdfPath %>" target="_blank">
+                                    <img src="<%= books[i].imagePath %>" alt="<%= books[i].title %>">
+                                    <figcaption>
+                                        <h4>
+                                            <%= books[i].title %>
+                                        </h4>
+                                        <p>
+                                            <%=books[i].title %>
+                                        </p>
+                                        <p class="cut">
+                                            <%= books[i].description %>
+                                        </p>
+                                          <div>
+                                            <button >delet</button>
+                                            <button>rename</button>
+                                          </div>
+                                    </figcaption>
+                                </a>
+                            </figure>
+                        </div>
+                        <% } %>
+                </section>
+            </main>
+        </div>
+
+
 </body>
 <script>
     function dialog_open(){

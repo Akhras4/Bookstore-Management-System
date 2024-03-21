@@ -32,18 +32,25 @@ router.post("/user/:id/logout",DoThis.cookieJWTAuth,DoThis.logout)
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'public/pdfs');
-    },
+      if (file.fieldname === 'pdf') {
+        cb(null, 'public/pdfs');
+      } else if (file.fieldname === 'image') {
+        cb(null, 'public/images');
+    }
+  },
+    
     filename: (req, file, cb) => {
       cb(null, file.originalname);
     },
   }),
   fileFilter: (req, file, cb) => {
-    if (file.mimetype == 'application/pdf') {
-      cb(null, true);
-    } else {
-      cb(null, false);
-      req.uploadError = 'Only .pdf format allowed!';
+    if (file.fieldname === 'pdf' && file.mimetype === 'application/pdf') {
+            cb(null, true);
+        } else if (file.fieldname === 'image' ) {
+            cb(null, true);
+        } else {
+            cb(null, false);
+      req.uploadError = 'Only .pdf and image format allowed!';
     } 
 }
 })
@@ -52,15 +59,15 @@ const upload = multer({
 
 
 router.get(`/user/:id`,DoThis.cookieJWTAuth, HomeController.index);
-router.post(`/user/:id/upload`,DoThis.cookieJWTAuth, upload.single('pdf'), HomeController.upload);
-router.get(`/user/:id/uploads`,DoThis.cookieJWTAuth, HomeController.list);
+router.post(`/user/:id/upload`,DoThis.cookieJWTAuth, upload.fields([{ name: 'pdf', maxCount: 1 }, { name: 'image', maxCount: 1 }]), HomeController.upload);
+router.get(`/user/:id/public/pdfs/:pdfPath`,DoThis.cookieJWTAuth, HomeController.openPdf);
 router.get(`/user/:id/delete/:filename`,DoThis.cookieJWTAuth, HomeController.delete);
 router.get(`/user/:id/download/:filename`,DoThis.cookieJWTAuth, HomeController.download);
 router.get(`/user/:id/rename/:filename`,DoThis.cookieJWTAuth, HomeController.renameForm);
 router.post(`/user/:id/rename/:oldFilename`,DoThis.cookieJWTAuth, HomeController.rename);
 
 
-
+ 
 
 router.get(`/user/:id/account`,DoThis.cookieJWTAuth,account.account)
 router.post(`/user/:id/account`,DoThis.cookieJWTAuth,account.account)

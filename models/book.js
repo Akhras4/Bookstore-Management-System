@@ -9,14 +9,19 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    pdfPath: {
         type: String,
         required: true
     },
-    path: {
+    imagePath: {
         type: String,
         required: true
     },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users', 
+        required: true
+    }
 });
 
 const books = mongoose.model('books', bookSchema);

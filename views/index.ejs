@@ -295,6 +295,14 @@
         margin-right: 5px;
         vertical-align: middle;
     }
+    .cat {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    #book{
+        display: flex;
+    }
     </style>
 </head>
 <body>
@@ -394,16 +402,20 @@
                             </figcaption>
                         </figure> 
                     </div>
+                    <% for (i=0;i<books.length;i++){ %>
                     <div class="item">
                         <figure>
-                            <img src="https://raw.githubusercontent.com/j0hm4r/freeCodeCamp/master/responsive_web_design/landing_page/starsmydest.jpg" alt="The Stars My Destination">
+                        <a href="/user/<%= userid %>/<%= books[i].pdfPath %>"target="_blank">
+                            <img src="<%= books[i].imagePath %>" alt="<%= books[i].title %>">
                             <figcaption>
-                                <h4>The Stars My Destination</h4>
-                                <p>by Alfred Bester</p>
-                                <p>Gully Foyle, Mechanic's Mate 3rd Class, is the only survivor on a drifting, wrecked spaceship, </p>
+                                <h4><%= books[i].title  %></h4>
+                                <p><%=books[i].title   %></p>
+                                <p class="cut"><%= books[i].description %> </p>
                             </figcaption>
+                             </a>
                         </figure> 
                     </div>
+                    <% } %>
                 </div>
             </section>
             <section id="subscribe">
@@ -414,7 +426,9 @@
                   <input id="title" type="text"name="title">
                   <label for="description">Description:</label>
                   <textarea id="description" name="description"></textarea>
+                  <label for="pdf">PDF File:</label>
                     <input type="file" name="pdf" required>
+                    <label for="image">Image File:</label>
                     <input type="file" name="image" required>
                     <button type="submit">Upload</button>
                 </form>
@@ -431,4 +445,5 @@
     </div>
     
 </body>
+
 </html>

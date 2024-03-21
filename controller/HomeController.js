@@ -1,38 +1,73 @@
 const fs = require('fs-extra');
 const path = require('path');
+const users = require("../models/user");
+const books = require("../models/book");
 
 const PDF_FOLDER = path.join(__dirname, '..', 'public', 'pdfs');
-
+const IMAGES_FOLDER = path.join(__dirname, '..', 'public', 'images');
 
 
 
 const HomeController = {
   index: (req, res) => {
     const userid = req.params.id;
-    res.render('index',{errors:null, userid });
+    users.findOne({_id:userid}) 
+    .then(user=>{books.find({})
+         .then(books=>{res.render(`index`,{userid,books,errors:null,username:user.UserName});})
+         .catch(err=>{res.render('index',{ userid,books });})
+    }).catch(err=>{res.render('index',{userid })})
     
   },
-  upload: (req, res) => {  
+  
+  upload: (req, res) => { 
+    if (req.method==="POST"){ 
      if (req.uploadError) {
-      const _id = req.params.id
+      const userid  = req.params.id
       console.log(req.params)
-        return res.status(401).render("index", { errors: req.uploadError, _id });
+        return res.status(401).render("index", { errors: req.uploadError, userid  });
     }else {
      const userid = req.params.id;
+     const { title, description } = req.body;
+     const pdfPath = req.files['pdf'][0].path
+     const imagePath= req.files['image'][0].path
      console.log(req.params)
-     res.cookie('username', {userid});
-     res.redir(`/user/${ userid }/uploads`);
+     const newbook=new books({
+      user_id:userid,
+      title:title,
+      description:description,
+      pdfPath:pdfPath,
+      imagePath:imagePath
+     })
+     newbook.save()
+     .then(() => {
+         return users.findById(userid);
+     })
+     .then(user => {
+         if (!user) {
+             throw new Error("User not found");
+         }
+         user.books.push(newbook);
+         return user.save();
+     })
+     .then(() => {
+         res.redirect(`/user/${userid}`);
+     })
+     .catch(error => {
+         res.status(500).send('Internal server error');
+     });
 }
+}},
+
+openPdf: (req, res) => {
+  try {
+    const pdfPath = req.params.pdfPath;
+    const fullPath = path.join(__dirname, '..', 'public', 'pdfs', pdfPath);
+    res.sendFile(fullPath);
+  } catch (error) {
+    console.error(error);
+    res.status(404).send('File not found');
+  }
 },
-  list: async (req, res) => {
-    try {
-      const files = await fs.readdir(PDF_FOLDER);
-      const userid = req.params.id;
-      res.render('uploads', { files , userid});
-    } catch (err) {
-      res.status(500).render("indix",{errors:err.message, userid});
-    }
-  },
   delete: async (req, res) => {
     try {
       const userid = req.params.id;
