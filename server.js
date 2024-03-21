@@ -7,14 +7,18 @@ require('dotenv').config();
 
 
 
+
 const app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static("public"));
+app.use('/images', express.static('images'));
 
 app.set("view engine","ejs");
 app.use(express.static("public"));
+app.use('/images', express.static('images'));
 
 
 const PORT = process.env.PORT ;

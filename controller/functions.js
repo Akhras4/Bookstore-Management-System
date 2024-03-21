@@ -73,7 +73,7 @@ const tokenval = (req, res) => {
                     res.status(500).json({ error: "Failed to generate token" });
                 } else {
                     res.cookie("token",token)
-                    res.status(200).redirect(`/user/${newUser.UserName}`);
+                    res.status(200).redirect(`/user/${newUser._id}`);
                 }
             })
         })
@@ -154,7 +154,7 @@ const login = (req,res)=>{
                         res.status(500).json({ error: "Failed to generate token" });
                     } else {
                         res.cookie("token",token)
-                        res.status(200).redirect(`/user/${discover.UserName}`);
+                        res.status(200).redirect(`/user/${discover._id}`);
                     }
                 });
                }else{

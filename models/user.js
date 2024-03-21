@@ -3,6 +3,7 @@ const moment = require("moment");
 const book=require("./book")
 
 
+
 const usersSchema = new mongoose.Schema({
     UserName: {
         type: String,
@@ -74,8 +75,8 @@ const usersSchema = new mongoose.Schema({
     },
     isValid: { type: Boolean, default: false },
     emailtoken: { type: String },
-    book_id:[{ type: Schema.Types.ObjectId, ref: 'book' }],
-    user_info:[{ type: Schema.Types.ObjectId, ref: 'userinfo' }]
+    books:[{ type: mongoose.Schema.Types.ObjectId, ref: 'books' }],
+    userinfo:[{ type: mongoose.Schema.Types.ObjectId, ref: 'userinfo' }]
 });
 
 const users = mongoose.model('users', usersSchema);
