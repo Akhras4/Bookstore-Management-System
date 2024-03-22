@@ -6,9 +6,19 @@ registration system using express and mongodb
 <a href="https://www.npmjs.com/package/registration-system?activeTab=readme"><img alt="NPM Collaborators" src="https://img.shields.io/npm/collaborators/registration-system"></a>
 
 </p>
-# User Authentication and Profile Management System
+### Bookstore Management System
 
-This repository contains code for a user authentication and profile management system. The system provides functionalities for user signup, email verification, login, JWT authentication, logout, and user profile rendering.
+This repository contains code for a bookstore management system. The system provides
+
+### Technologies Used
+
+- Node.js
+- Express.js
+- MongoDB
+- JSON Web Tokens (JWT)
+- Multer (for file uploads)
+- EJS (for rendering views)
+- Nodemailer (for sending transactional emails)
 
 ## Functionality Overview
 ### functions object
