@@ -6,7 +6,7 @@ registration system using express and mongodb
 <a href="https://www.npmjs.com/package/registration-system?activeTab=readme"><img alt="NPM Collaborators" src="https://img.shields.io/npm/collaborators/registration-system"></a>
 
 </p>
-### Bookstore Management System
+# Bookstore Management System
 
 This repository contains code for a bookstore management system. The system provides
 
