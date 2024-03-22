@@ -1,3 +1,4 @@
+
 const fs = require('fs-extra');
 const path = require('path');
 const users = require("../models/user");
@@ -8,12 +9,16 @@ const IMAGES_FOLDER = path.join(__dirname, '..', 'public', 'images');
 
 
 
+/* This code snippet defines a JavaScript object named `HomeController` which contains several methods
+for handling different routes and actions in a web application. Here is a breakdown of what each
+method does: */
 const HomeController = {
   index: (req, res) => {
     const userid = req.params.id;
     users.findOne({_id:userid}) 
     .then(user=>{books.find({})
-         .then(books=>{res.render(`index`,{userid,books,errors:null,username:user.UserName});})
+         .then(books=>{console.log(req.files);
+         res.render(`index`,{userid,books,errors:null,username:user.UserName});})
          .catch(err=>{res.render('index',{ userid,books });})
     }).catch(err=>{res.render('index',{userid })})
     
@@ -29,14 +34,18 @@ const HomeController = {
      const userid = req.params.id;
      const { title, description } = req.body;
      const pdfPath = req.files['pdf'][0].path
-     const imagePath= req.files['image'][0].path
+     const baseUrl = 'http://localhost:3000'
+     const imagePath= req.files['image'][0].path.replace(/\\/g, '/')
+     const imageUrl = baseUrl + '/' + imagePath;
+     console.log(req.files)
+     //console.log(imageUrl)
      console.log(req.params)
      const newbook=new books({
       user_id:userid,
       title:title,
       description:description,
       pdfPath:pdfPath,
-      imagePath:imagePath
+      imagePath:imageUrl
      })
      newbook.save()
      .then(() => {
@@ -61,7 +70,7 @@ const HomeController = {
 openPdf: (req, res) => {
   try {
     const pdfPath = req.params.pdfPath;
-    const fullPath = path.join(__dirname, '..', 'public', 'pdfs', pdfPath);
+    const fullPath = path.join(__dirname, '..', 'public', 'pdfs', pdfPath);    
     res.sendFile(fullPath);
   } catch (error) {
     console.error(error);

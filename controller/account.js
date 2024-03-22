@@ -1,8 +1,20 @@
+
 const { model, Error } = require('mongoose');
 const users = require("../models/user");
 const userinfo = require("../models/userinfo");
 
 
+/**
+ * The function `account` retrieves user account information and renders it on a webpage, including
+ * user details, user info, and associated books.
+ * @param req - The `req` parameter in the `account` function represents the request object, which
+ * contains information about the HTTP request that was made. This object includes properties such as
+ * `method`, `params`, and other request details. In this code snippet, the function is checking if the
+ * request method is a GET
+ * @param res - The `res` parameter in the `account` function is the response object that is used to
+ * send a response back to the client making the request. It is typically used to send data, status
+ * codes, and render views in response to client requests.
+ */
 const account=(req,res)=>{
     if ( req.method === "GET" ){
         const userid = req.params.id;
@@ -37,6 +49,9 @@ const account=(req,res)=>{
                 })
          }).catch(err=>{res.status(400).render("index", {userid} )})
     }  
+
+/* This part of the code snippet is handling the logic for updating user information when a POST
+request is made to the `/user/:id/account` endpoint. Here's a breakdown of what the code is doing: */
 if ( req.method == "POST" ){
         userid=req.params.id
         console.log(req.params)
