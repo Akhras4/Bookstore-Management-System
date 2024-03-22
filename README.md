@@ -28,8 +28,8 @@ This repository contains code for a bookstore management system. The system prov
 - **JWT Authentication:** Generates JSON Web Tokens (JWT) upon successful login for secure authentication of subsequent requests.
 - **Logout:** Logs the user out of the system, invalidating their current session.
 - **User Profile Rendering:** Displays user-specific information such as username and profile details.
-- **The function `account` retrieves user account information and renders it on a webpage, including
-- **user details, user info, and associated books.
+- **The** function `account` retrieves user account information and renders it on a webpage, including
+- **user** details, user info, and associated books.
 ### Account Object
 -* @param {Object} req - The request object representing the HTTP request made by the client.
 -* @param {Object} res - The response object used to send a response back to the client.
