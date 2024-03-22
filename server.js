@@ -4,9 +4,7 @@ const mongoose=require("mongoose");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-
-
-
+const path = require('path');
 
 const app = express();
 
@@ -14,7 +12,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
-app.use('/images', express.static('images'));
+app.use('/public/images', express.static(path.join(__dirname, 'public/images')))
 
 app.set("view engine","ejs");
 app.use(express.static("public"));

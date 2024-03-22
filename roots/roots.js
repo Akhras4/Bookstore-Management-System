@@ -6,6 +6,7 @@ const HomeController = require('../controller/HomeController');
 const account=require("../controller/account")
 
 
+router.get("/",DoThis.redirecttologin)
 
 router.get("/signup",DoThis.singup)
 router.post("/signup",DoThis.singup)

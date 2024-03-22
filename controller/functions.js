@@ -1,3 +1,5 @@
+
+ 
 const { model, Error } = require('mongoose');
 const users = require("../models/user");
 const crypto=require("crypto")
@@ -9,6 +11,11 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const { render } = require('ejs');
 
+const redirecttologin =( req,res) =>{
+if(req.method==="GET"){
+    res.redirect("/login")
+}
+}
 
 const singup = (req, res) => {
     if (req.method === "GET") {
@@ -214,5 +221,6 @@ module.exports = {
     cookieJWTAuth,
     logout,
     user,
+    redirecttologin,
      
 }
