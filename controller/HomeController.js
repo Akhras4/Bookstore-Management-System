@@ -3,10 +3,11 @@ const fs = require('fs-extra');
 const path = require('path');
 const users = require("../models/user");
 const books = require("../models/book");
+require('dotenv').config();
 
 const PDF_FOLDER = path.join(__dirname, '..', 'public', 'pdfs');
-const IMAGES_FOLDER = path.join(__dirname, '..', 'public', 'images');
-
+const MAGES_FOLDER = path.join(__dirname, '..', 'public', 'images');
+const PORT = process.env.PORT ;
 
 
 /* This code snippet defines a JavaScript object named `HomeController` which contains several methods
@@ -34,7 +35,7 @@ const HomeController = {
      const userid = req.params.id;
      const { title, description } = req.body;
      const pdfPath = req.files['pdf'][0].path
-     const baseUrl = 'http://localhost:3000'
+     const baseUrl = `http://localhost:${PORT}`
      const imagePath= req.files['image'][0].path.replace(/\\/g, '/')
      const imageUrl = baseUrl + '/' + imagePath;
      console.log(req.files)
