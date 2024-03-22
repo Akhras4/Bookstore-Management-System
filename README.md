@@ -1,5 +1,7 @@
-# registration-system
-registration system using express and mongodb
+# Bookstore Management System
+
+This repository contains code for a bookstore management system. The system provides
+
 <p dir=auto>
 <a href=""><img alt="NPM Version" src="https://img.shields.io/npm/v/registration-system"></a>
 <a href=""><img alt="NPM License" src="https://img.shields.io/badge/license-MIT-blue"></a>
@@ -7,9 +9,6 @@ registration system using express and mongodb
 
 </p>
 
-# Bookstore Management System
-
-This repository contains code for a bookstore management system. The system provides
 
 ### Technologies Used
 
