@@ -69,8 +69,7 @@ This code snippet defines a JavaScript object named `HomeController`, which cont
 
 To use this system, follow these steps:
 
-1. Clone the repository to your local machine.```bash
-   git clone https://github.com/your-username/your-repository.git
+1. Clone the repository to your local machine.
 2. Install any required dependencies.
 3. Configure the database connection settings.
 4. AppEmail: Application email address for sending emails.
