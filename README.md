@@ -31,16 +31,16 @@ This repository contains code for a bookstore management system. The system prov
 - **The** function `account` retrieves user account information and renders it on a webpage, including
 - **user** details, user info, and associated books.
 ### Account Object
--* @param {Object} req - The request object representing the HTTP request made by the client.
--* @param {Object} res - The response object used to send a response back to the client.
--* 
--* The `req` parameter contains information such as the request method (`req.method`), request parameters (`req.params`),
--* and other details about the request.
--* 
--* The `res` parameter is used to send data, status codes, and render views in response to client requests.
--* 
+-* **@param {Object}** req - The request object representing the HTTP request made by the client.
+-* **@param {Object}** res - The response object used to send a response back to the client.
+
+-* **The `req`** parameter contains information such as the request method (`req.method`), request parameters (`req.params`),
+and other details about the request.
+ 
+-* **The `res`** parameter is used to send data, status codes, and render views in response to client requests.
+
 -* In this code snippet, the function checks if the request method is a GET and proceeds to retrieve
--* user account information and render it on a webpage.
+user account information and render it on a webpage.
 -*
 ### HomeController Object
 
