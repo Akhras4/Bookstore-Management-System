@@ -197,12 +197,10 @@ const cookieJWTAuth = (req, res, next) => {
 
 const logout=(req,res)=>{
     if(req.method==="GET"){
-    render("logout")
-    }
-    if(req.method==="POST"){
         res.clearCookie('token');
-        res.redirect('/indix');
+        res.redirect('/login');
     }
+  
 }
 
 
