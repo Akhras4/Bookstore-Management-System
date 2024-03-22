@@ -73,8 +73,8 @@ To use this system, follow these steps:
 2. Install any required dependencies.
 3. Configure the database connection settings.
 4. AppEmail: Application email address for sending emails.
-5.AppPassword: Application-specific password for email authentication.
-6.MY_SECRET: Secret key for encryption and decryption.
+5. AppPassword: Application-specific password for email authentication.
+6. MY_SECRET: Secret key for encryption and decryption.
 7. Run the application.
 
 ## Contributing
