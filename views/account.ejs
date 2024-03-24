@@ -222,12 +222,13 @@
                                         <p class="cut">
                                             <%= books[i].description %>
                                         </p>
+                                    </a>
                                           <div>
-                                            <button >delet</button>
+                                           <a href="/user/<%= userid %>/delete/<%= books[i]._id %>"> delete </a>
                                             <button>rename</button>
                                           </div>
                                     </figcaption>
-                                </a>
+                                
                             </figure>
                         </div>
                         <% } %>

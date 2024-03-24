@@ -6,7 +6,7 @@ const books = require("../models/book");
 require('dotenv').config();
 
 const PDF_FOLDER = path.join(__dirname, '..', 'public', 'pdfs');
-const MAGES_FOLDER = path.join(__dirname, '..', 'public', 'images');
+const IMAGES_FOLDER = path.join(__dirname, '..', 'public', 'images');
 const PORT = process.env.PORT ;
 
 
@@ -56,7 +56,7 @@ const HomeController = {
          if (!user) {
              throw new Error("User not found");
          }
-         user.books.push(newbook);
+         user.books.push(newbook._id);
          return user.save();
      })
      .then(() => {
@@ -81,9 +81,22 @@ openPdf: (req, res) => {
   delete: async (req, res) => {
     try {
       const userid = req.params.id;
-      const { filename } = req.params;
-      await fs.unlink(path.join(PDF_FOLDER, filename));
-      res.redirect(`/user/${ userid }/uploads`);
+      const bookid = req.params.bookid;
+      let filePath;
+      let imgPath;
+      console.log(bookid)
+      users.findOne({_id:userid})
+      .populate("books")
+      .then(user=>{ 
+             const index =user.books.findIndex(book => book._id.toString() === bookid);
+             filePath = user.books[index].pdfPath;
+             imgPath= user.books[index].imagePath;
+             user.books.splice(index, 1);
+             return user.save()})
+      .then(()=>{  books.deleteOne({_id:bookid})})
+      .then(()=> { const filename = path.basename(filePath); fs.unlink(path.join(PDF_FOLDER, filename))
+                   const filenameimg = path.basename(imgPath); fs.unlink(path.join(IMAGES_FOLDER, filenameimg)) })           
+       .then(()=>{  res.redirect(`/user/${ userid }/account`)})
     } catch (err) {
       res.status(500).send(err.message);
     }
